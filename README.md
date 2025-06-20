@@ -1,17 +1,5 @@
-# 自修改 override-hub 项目说明
-
-自修改的 mihomo 覆写配置和 sub-store 组合订阅模板
-
-## 使用指南
-
-### mihomo 配置
-- 本配置已在 sub-store 中测试通过，mihomo-party/sparkle 请自行测试
-- 配置文件：
-  - [selfuse_dns.yaml](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/selfuse_dns.yaml) - 普通用户使用
-  - [selfuse_dns_local.yaml](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/selfuse_dns_local.yaml) - 本地 DNS 分流用户使用
-    - 仅修改 DNS 部分为 redir-host，其他都和 [selfuse_dns.yaml](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/selfuse_dns.yaml) 同步
-    - 需自行修改为已配置 DNS 分流的 AdGuardHome DNS / MosDNS 地址
-  - [selfuse_test_remote.yaml](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/selfuse_test_remote.yaml) 和 [selfuse_test_local.yaml](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/selfuse_test_local.yaml)为测试配置，请自行选用
+# 自用 mihomo 覆写配置和 sub-store 组合订阅模板
+根据Seameee/override-hub做了一些修改
 
 ### sub-store 懒人配置
 预置了 sub-store 的懒人配置，导入后添加你的订阅就能使用
@@ -35,10 +23,3 @@
      - 将 [mihomo配置](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/mihomo配置.json) 导入本地配置
      - 将 [singbox配置](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/singbox配置.json) 导入本地配置
 
-## 致谢
-特别感谢以下项目和个人（排名不分先后）：
-- [mihomo-party-org/override-hub](https://github.com/mihomo-party-org/override-hub)
-- [Keywos/rule](https://github.com/Keywos/Rule)
-- https://linux.do/t/topic/496229
-- https://t.me/zhetengsha/2197
-- [cmliu/ACL4SSR](https://github.com/cmliu/ACL4SSR)
