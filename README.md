@@ -13,13 +13,13 @@
      - 多机场流量信息整合
      - 家宽/落地节点自动设置代理链（可选）
    - 使用方法：
+     - 在 sub-store 订阅管理页面，添加自己的机场订阅
      - 在 sub-store 订阅管理页面，点击左上角 ➕ 号
-     - 将 [sub-store组合订阅模板](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/sub-store组合订阅模板.json) 导入本地配置
+     - 将 [sub-store组合订阅模板](https://raw.githubusercontent.com/jininv/override-hub/refs/heads/main/sub-store组合订阅模板.json) 导入本地配置
      - 选择需要整合的机场订阅并保存
 
 2. 托管配置模板
    - 使用方法：
      - 在 sub-store 文件管理页面，点击左上角 ➕ 号
-     - 将 [mihomo配置](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/mihomo配置.json) 导入本地配置
-     - 将 [singbox配置](https://raw.githubusercontent.com/Seameee/override-hub/refs/heads/main/singbox配置.json) 导入本地配置
+     - 将 [mihomo配置](https://raw.githubusercontent.com/jininv/override-hub/refs/heads/main/mihomo配置.json) 导入本地配置
 
