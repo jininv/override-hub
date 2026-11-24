@@ -96,7 +96,7 @@ proxy-groups:
 
   # 手动/自动
   - {name: 手动选择, <<: *Select, filter: *FilterAll, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png}
-  - {name: 自动选择, type: select, proxies: [香港节点, 日本节点, 狮城节点, 美国节点], url: https://cp.cloudflare.com/generate_204, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png}
+  - {name: 自动选择, type: select, proxies: [香港节点, 韩国节点, 日本节点, 狮城节点, 美国节点], url: https://cp.cloudflare.com/generate_204, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png}
 
   # 特殊分组
   - {name: 落地选择, <<: *Select, filter: *FilterLanding, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png}
