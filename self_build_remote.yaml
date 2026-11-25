@@ -78,14 +78,14 @@ tun:
   # route-exclude-address: ["192.168.110.0/24"]
 
 # 节点筛选
-FilterAll: &FilterAll '^(?=.*(.))(?!.*((?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|(\b(USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author)\b|(\d{4}-\d{2}-\d{2}|\d+G)))).*$'
+FilterAll: &FilterAll '^(?=.*(.))(?!.*((?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|剩余|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|(\b(USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author)\b))).*$'
 
 Select: &Select {type: select, url: 'https://cp.cloudflare.com/generate_204', disable-udp: false, hidden: false, include-all: true}
 Auto: &Auto {type: url-test, url: 'https://cp.cloudflare.com/generate_204', interval: 300, tolerance: 50, disable-udp: false, hidden: true, include-all: true}
-Loadbalance: &Loadbalance {type: load-balance, url: 'https://cp.cloudflare.com/generate_204', interval: 300, strategy: round-robin, disable-udp: false, hidden: true, include-all: true}
+Loadbalance: &Loadbalance {type: load-balance, url: 'https://cp.cloudflare.com/generate_204', interval: 300, strategy: consistent-hashing, disable-udp: false, hidden: true, include-all: true}
 # 策略组
 proxy-groups: 
-  - {name: 节点选择, type: select, proxies: [自动选择,自动轮询], url: https://cp.cloudflare.com/generate_204, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png}
+  - {name: 节点选择, type: select, proxies: [自动选择,自动轮询,手动选择,DIRECT], url: https://cp.cloudflare.com/generate_204, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png}
   - {name: 手动选择, <<: *Select, filter: *FilterAll, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png}
   - {name: 自动选择, type: select, proxies: [全部节点], url: https://cp.cloudflare.com/generate_204, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png, hidden: true}
   - {name: 自动轮询, type: select, proxies: [节点轮询], url: https://cp.cloudflare.com/generate_204, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png, hidden: true}
@@ -93,10 +93,10 @@ proxy-groups:
   - {name: 节点轮询, <<: *Loadbalance, filter: *FilterAll, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Roundrobin.png}
 
 ### 规则配置
-RuleSet_classical: &RuleSet_classical {type: http, behavior: classical, interval: 43200, format: text, proxy: 节点选择}
-RuleSet_domain: &RuleSet_domain {type: http, behavior: domain, interval: 43200, format: text, proxy: 节点选择}
-RuleSet_ipcidr: &RuleSet_ipcidr {type: http, behavior: ipcidr, interval: 43200, format: text, proxy: 节点选择}
-RuleSet_filter: &RuleSet_filter {type: http, behavior: domain, interval: 43200, format: mrs, proxy: 节点选择}
+RuleSet_classical: &RuleSet_classical {type: http, behavior: classical, interval: 43200, format: text, proxy: DIRECT}
+RuleSet_domain: &RuleSet_domain {type: http, behavior: domain, interval: 43200, format: text, proxy: DIRECT}
+RuleSet_ipcidr: &RuleSet_ipcidr {type: http, behavior: ipcidr, interval: 43200, format: text, proxy: DIRECT}
+RuleSet_filter: &RuleSet_filter {type: http, behavior: domain, interval: 43200, format: mrs, proxy: DIRECT}
 
 # 订阅规则
 rule-providers:
@@ -155,6 +155,43 @@ rule-providers:
     url: https://ruleset.skk.moe/Clash/non_ip/cdn.txt
     path: ./rule_set/sukkaw_ruleset/cdn_non_ip.txt
 
+  # 软件更新、操作系统等大文件下载（直连，别压自建 VPS）
+  download_domainset:
+    <<: *RuleSet_domain
+    url: https://ruleset.skk.moe/Clash/domainset/download.txt
+    path: ./rule_set/sukkaw_ruleset/download_domainset.txt
+
+  download_non_ip:
+    <<: *RuleSet_domain
+    url: https://ruleset.skk.moe/Clash/non_ip/download.txt
+    path: ./rule_set/sukkaw_ruleset/download_non_ip.txt
+
+  # 苹果 / 微软服务（直连）
+  apple_cdn:
+    <<: *RuleSet_domain
+    url: https://ruleset.skk.moe/Clash/domainset/apple_cdn.txt
+    path: ./rule_set/sukkaw_ruleset/apple_cdn.txt
+
+  apple_cn_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/apple_cn.txt
+    path: ./rule_set/sukkaw_ruleset/apple_cn_non_ip.txt
+
+  apple_services:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/apple_services.txt
+    path: ./rule_set/sukkaw_ruleset/apple_services.txt
+
+  microsoft_cdn_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/microsoft_cdn.txt
+    path: ./rule_set/sukkaw_ruleset/microsoft_cdn_non_ip.txt
+
+  microsoft_non_ip:
+    <<: *RuleSet_classical
+    url: https://ruleset.skk.moe/Clash/non_ip/microsoft.txt
+    path: ./rule_set/sukkaw_ruleset/microsoft_non_ip.txt
+
   # 内网域名和局域网 IP
   lan_non_ip:
     <<: *RuleSet_classical
@@ -200,6 +237,13 @@ rules:
   - RULE-SET,reject_non_ip_no_drop,REJECT
   - RULE-SET,cdn_domainset,节点选择
   - RULE-SET,cdn_non_ip,节点选择
+  - RULE-SET,download_domainset,DIRECT
+  - RULE-SET,download_non_ip,DIRECT
+  - RULE-SET,apple_cdn,DIRECT
+  - RULE-SET,apple_cn_non_ip,DIRECT
+  - RULE-SET,apple_services,DIRECT
+  - RULE-SET,microsoft_cdn_non_ip,DIRECT
+  - RULE-SET,microsoft_non_ip,DIRECT
   - RULE-SET,global_non_ip,节点选择
   - RULE-SET,domestic_non_ip,DIRECT
   - RULE-SET,cn,DIRECT
